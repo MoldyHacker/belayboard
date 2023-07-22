@@ -37,16 +37,19 @@
       <router-view />
     </q-page-container>
 
-    <q-footer bordered class="bg-grey-8 text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-          </q-avatar>
-          <div>Title</div>
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
+<!--    <q-footer bordered class="bg-grey-8 text-white">-->
+<!--      <q-toolbar class="justify-around q-my-sm">-->
+<!--        <q-btn icon="leaderboard" rounded color="primary" size="lg"><q-tooltip anchor="top middle" self="bottom middle">-->
+<!--          Here I am!-->
+<!--        </q-tooltip></q-btn>-->
+<!--        <q-btn icon="leaderboard" rounded color="primary" size="lg"><q-tooltip anchor="top middle" self="bottom middle">-->
+<!--          Here I am!-->
+<!--        </q-tooltip></q-btn>-->
+<!--        <q-btn icon="leaderboard" rounded color="primary" size="lg"><q-tooltip anchor="top middle" self="bottom middle">-->
+<!--          Here I am!-->
+<!--        </q-tooltip></q-btn>-->
+<!--      </q-toolbar>-->
+<!--    </q-footer>-->
 
   </q-layout>
 </template>
@@ -172,6 +175,11 @@ export default defineComponent({
 
   components: {
     EssentialLink
+  },
+  watch: {
+    '$route':function () {
+      console.log(this.$router.currentRoute.name)
+    }
   },
 
   setup () {
