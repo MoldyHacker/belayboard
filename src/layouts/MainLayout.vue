@@ -10,10 +10,10 @@
             <q-btn icon="assignment"/>
           </q-avatar>
           {{ appName }}
-          <q-badge color="orange">v{{appVersion}}</q-badge>
+          <q-badge color="orange">v{{ appVersion }}</q-badge>
         </q-toolbar-title>
         <q-avatar>
-          <q-btn icon="account_circle" size="16px"/>
+          <q-btn icon="account_circle" size="16px" @click="this.$router.push({name: 'profile'})"/>
         </q-avatar>
       </q-toolbar>
     </q-header>
