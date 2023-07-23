@@ -10,6 +10,7 @@
             <q-btn icon="assignment"/>
           </q-avatar>
           {{ appName }}
+          <q-badge color="orange">v{{appVersion}}</q-badge>
         </q-toolbar-title>
         <q-avatar>
           <q-btn icon="account_circle" size="16px"/>
