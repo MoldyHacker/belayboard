@@ -1,17 +1,11 @@
-<template>
-  <q-page class="flex flex-cencircleter">
-<!--    <img-->
-<!--      alt="Quasar logo"-->
-<!--      src="~assets/quasar-logo-vertical.svg"-->
-<!--      style="width: 200px; height: 200px"-->
-<!--    >-->
-    <div class="text-h3 text-weight-bold text-center absolute-top q-mt-lg">
-      Welcome to BelayBoard!
-      <div class="text-h5 q-mt-lg">
-        The best way to find a climbing partner.
-      </div>
-    </div>
+<script>
+export default {
+  name: "PlanBoardPage"
+}
+</script>
 
+<template>
+  <q-page>
     <div class="q-pa-md row items-start q-gutter-md">
       <q-card class="my-card" flat bordered>
         <q-img
@@ -55,16 +49,6 @@
   </q-page>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<style scoped>
 
-export default defineComponent({
-  name: 'IndexPage',
-  data(){
-    return{
-      expanded: false,
-      lorem:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    }
-  },
-})
-</script>
+</style>
