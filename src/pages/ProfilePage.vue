@@ -19,7 +19,11 @@ export default defineComponent({
 <template>
   <q-page class="constrain">
     <div class="profileImage text-center q-mt-lg">
-      <q-icon name="account_circle" size="128px"/>
+<!--      <q-icon name="account_circle" size="128px"/>-->
+      <q-avatar size="128px">
+        <img :src="userStore.authUser.photoURL" alt="">
+      </q-avatar>
+
     </div>
     <div class="text-center text-h3">
       Profile

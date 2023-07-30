@@ -5,7 +5,8 @@
 // export default boot(async (/* { app, router, ... } */) => {
 //   // something to do
 // })
-import firebase from "firebase/compat/app";
+// import firebase from "firebase/compat/app";
+import firebase from "firebase";
 // Required for side effects
 import "firebase/firestore";
 // import {useAuthStore} from "stores/auth-store";

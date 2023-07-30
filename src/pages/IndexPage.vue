@@ -53,18 +53,37 @@
       </q-card>
     </div>
   </q-page>
+
+  <add-climbing-plan-dialog v-model="plan" />
+
 </template>
+
+
+
 
 <script>
 import { defineComponent } from 'vue'
+import { useQuasar } from "quasar";
+import { date } from "quasar";
+import AddClimbingPlanDialog from "components/AddClimbingPlanDialog.vue";
 
 export default defineComponent({
   name: 'IndexPage',
+  components: {AddClimbingPlanDialog},
   data(){
     return{
+      $q: useQuasar(),
       expanded: false,
       lorem:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      plan: true,
+
     }
   },
+  methods: {
+
+  },
+  mounted() {
+    // console.log(this.minYearMonth)
+  }
 })
 </script>
