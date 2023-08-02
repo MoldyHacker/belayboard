@@ -1,16 +1,14 @@
 <script>
 import {defineComponent} from 'vue'
 import {useUserStore} from "stores/user-store";
+import ClickableListComponent from 'components/ClickableListComponent.vue';
 
 export default defineComponent({
   name: "ProfilePage",
+  components: {ClickableListComponent},
   data(){
     return{
       userStore: useUserStore(),
-      name: 'test',
-      username: 'test',
-      email: 'test@gmail.com',
-      bio: 'bio',
     }
   },
 })
@@ -26,15 +24,26 @@ export default defineComponent({
       </q-avatar>
 
     </div>
-    <div class="text-center text-h3">
+    <div class="text-center text-h3 q-my-md">
       Profile
     </div>
-    <div class="text-h5 text-grey-8 q-ml-lg">
-      Name: <span class="text-black">{{ name }}</span><br>
-      Username: <span class="text-black">@{{ username }}</span><br>
-      Email: <span class="text-black">{{ email }}</span><br>
-      Bio: <span class="text-black">{{ bio }}</span><br>
+    <div v-if="userStore.userProfile.role !== 'user'" class="role q-mb-md" >
+      <q-list class="q-mx-auto text-center" style="max-width: 360px">
+        <q-item>
+          <q-item-section>
+            <q-item-label overline class="text-bold" style="font-size: 24px">App Role</q-item-label>
+            <q-separator/>
+            <q-item-label overline class="text-accent" style="font-size: 22px">{{ userStore.userProfile.role.toUpperCase() }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
     </div>
+    <q-list class="q-mx-auto" style="max-width: 480px">
+      <clickable-list-component label="Display Name" :value="userStore.userProfile.displayName" can-edit="true" />
+      <clickable-list-component label="Username" :value="userStore.userProfile.username" />
+      <clickable-list-component label="Email" :value="userStore.userProfile.email" can-edit="true" />
+      <clickable-list-component label="Bio" :value="userStore.userProfile.bio" can-edit="true" />
+    </q-list>
   </q-page>
 </template>
 
@@ -43,5 +52,11 @@ export default defineComponent({
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+}
+.hover {
+
+}
+.hover:hover {
+  display: block;
 }
 </style>

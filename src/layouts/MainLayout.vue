@@ -17,7 +17,6 @@
         </q-toolbar-title>
 
         <q-avatar v-if="userStore.authUser" class="cursor-pointer">
-          <!--          <q-btn icon="account_circle" size="16px" @click="pushToProfileSettings"/>-->
           <q-menu>
             <div class="row no-wrap q-pa-md">
               <div class="column">
@@ -44,7 +43,8 @@
                 </q-avatar>
 
                 <div class="text-subtitle1 q-mt-md q-mb-xs">
-                  {{ userStore.authUser.displayName }}
+<!--                  {{ userStore.authUser.displayName }}-->
+                  @{{ userStore.userProfile.username }}
                 </div>
 
                 <q-btn
@@ -402,9 +402,10 @@ export default defineComponent({
               this.createUsernameDialog = false;
               this.$q.notify({
                 message: `Username updated: ${this.username}`,
-                color: 'primary',
+                color: 'positive',
                 position: 'top-right'
-              })
+              });
+              this.$forceUpdate();
             });
       }
     },
