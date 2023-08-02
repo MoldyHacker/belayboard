@@ -15,27 +15,42 @@ export const useUserStore = defineStore("user", {
     isAuthenticated(state) {
       return !!state.authUser;
     },
+    hasUsername(state) {
+      return !!state.userProfile.username
+    },
   },
 
   actions: {
     setAuth(user) {
       this.authUser = user;
     },
+
     setUser(user){
       this.userProfile = user;
     },
+
+    async getUserProfile(user) {
+      return await db.doc(`users/${user.uid}`)
+        .get()
+        .then((doc) => {
+          console.log("data: ", doc.data());
+          return doc.exists ? doc.data() : null;
+        })
+        .catch((e) => console.error("Error fetching user profile", e));
+    },
+
     async onAuthStateChange() {
-      await auth.onAuthStateChanged((user) => {
+      await auth.onAuthStateChanged(async (user) => {
         this.setAuth(user ? new AuthUser(user) : null);
-        this.setUser(user ? new UserProfile(user) : null);
+        this.setUser(user ? new UserProfile(await this.getUserProfile(user)) : null);
       })
     },
 
     async init() {
-      await auth.onAuthStateChanged((user) => {
+      await auth.onAuthStateChanged(async (user) => {
         this.setAuth(user ? new AuthUser(user) : null);
-        this.setUser(user ? new UserProfile(user) : null);
-        this.isLoaded = true;
+        this.setUser(user ? new UserProfile(await this.getUserProfile(user)) : null);
+        // this.isLoaded = true;
       });
     },
 
@@ -65,6 +80,7 @@ export const useUserStore = defineStore("user", {
         .set({
           creationTimestamp: firebase.firestore.Timestamp.now(),
           displayName: user.displayName,
+          photoURL: user.photoURL,
           email: user.email,
           role: "user",
         })

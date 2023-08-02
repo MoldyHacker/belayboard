@@ -21,7 +21,8 @@ export default defineComponent({
     <div class="profileImage text-center q-mt-lg">
 <!--      <q-icon name="account_circle" size="128px"/>-->
       <q-avatar size="128px">
-        <img :src="userStore.authUser.photoURL" alt="">
+        <img v-if="userStore.authUser.photoURL" :src="userStore.authUser.photoURL" />
+        <q-icon v-else name="account_circle"/>
       </q-avatar>
 
     </div>

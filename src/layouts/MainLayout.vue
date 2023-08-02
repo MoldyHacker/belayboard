@@ -39,7 +39,8 @@
                   @click="pushToProfileSettings"
                 >
                   <q-tooltip>Profile Settings</q-tooltip>
-                  <img :src="userStore.authUser.photoURL" />
+                  <img v-if="userStore.authUser.photoURL" :src="userStore.authUser.photoURL" />
+                  <q-icon v-else name="account_circle"/>
                 </q-avatar>
 
                 <div class="text-subtitle1 q-mt-md q-mb-xs">
@@ -60,7 +61,8 @@
             </div>
           </q-menu>
           <q-tooltip>Profile</q-tooltip>
-          <img :src="userStore.authUser.photoURL" />
+          <img v-if="userStore.authUser.photoURL" :src="userStore.authUser.photoURL" />
+          <q-icon v-else name="account_circle"/>
         </q-avatar>
 
         <q-avatar v-else class="cursor-pointer">
@@ -264,7 +266,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
 import { version, productName } from "../../package.json";
 import { date } from "quasar";
@@ -412,11 +414,14 @@ export default defineComponent({
       return this.username.toLowerCase().trim();
     },
   },
-  created() {
+  mounted() {
     // this.userStore.onAuthStateChange()
-    if (!!this.userStore.userProfile && this.userStore.isAuthenticated) {
-      this.createUsernameDialog = true;
-    }
+    setTimeout(() => {
+      if (!this.userStore.hasUsername && this.userStore.isAuthenticated) {
+        this.createUsernameDialog = true;
+      }
+    },1000)
+
   },
 
   components: {
