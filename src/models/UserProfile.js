@@ -11,6 +11,7 @@ export default function UserProfile(firebaseUser) {
 
   return {
     displayName: firebaseUser.displayName ? firebaseUser.displayName : "",
+    dateOfBirth: firebaseUser.dateOfBirth ? firebaseUser.dateOfBirth : "",
     username: firebaseUser.username ? firebaseUser.username : "",
     photoURL: firebaseUser.photoURL ? firebaseUser.photoURL : "",
     email: firebaseUser.email ? firebaseUser.email : "",

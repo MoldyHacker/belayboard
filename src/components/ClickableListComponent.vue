@@ -1,11 +1,15 @@
 <script>
 export default {
   name: "ClickableListComponent",
-  props: ['label', 'value', 'canEdit'],
+  props: ['label', 'value', 'hasHtml', 'canEdit'],
   data() {
     return {
-      hover: false
+      hover: false,
+      model: this.value,
     }
+  },
+  methods: {
+
   },
 }
 </script>
@@ -16,12 +20,15 @@ export default {
       <q-icon name="edit"/>
     </q-item-section>
     <q-item-section>
-      <q-item-label overline class="" style="font-size: 20px">{{ label }}</q-item-label>
-      <q-item-label class="q-ml-md" style="font-size: 20px">{{ value }}</q-item-label>
+      <q-item-label overline class="" style="font-size: 24px">{{ label }}</q-item-label>
+      <div v-if="hasHtml" class="q-ml-md" style="font-size: 20px" v-html="value" ></div>
+      <q-item-label v-else class="q-ml-md" style="font-size: 20px">{{ value }}</q-item-label>
+
     </q-item-section>
     <q-item-section side v-if="canEdit" class="mobileEdit">
       <q-icon name="edit"/>
     </q-item-section>
+    <slot></slot>
   </q-item>
 </template>
 

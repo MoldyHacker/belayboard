@@ -21,14 +21,13 @@ export const useUserStore = defineStore("user", {
   },
 
   actions: {
+    // Auth & Initial User Setup
     setAuth(user) {
       this.authUser = user;
     },
-
     setUser(user){
       this.userProfile = user;
     },
-
     async getUserProfile(user) {
       return await db.doc(`users/${user.uid}`)
         .get()
@@ -38,22 +37,26 @@ export const useUserStore = defineStore("user", {
         })
         .catch((e) => console.error("Error fetching user profile", e));
     },
-
+    setUserProfile(user){
+      db.doc(`users/${user.uid}`)
+        .onSnapshot((doc) => {
+          console.log("data: ", doc.data());
+          this.userProfile = new UserProfile(doc.exists ? doc.data() : null);
+        });
+    },
     async onAuthStateChange() {
       await auth.onAuthStateChanged(async (user) => {
         this.setAuth(user ? new AuthUser(user) : null);
         this.setUser(user ? new UserProfile(await this.getUserProfile(user)) : null);
       })
     },
-
     async init() {
       await auth.onAuthStateChanged(async (user) => {
         this.setAuth(user ? new AuthUser(user) : null);
-        this.setUser(user ? new UserProfile(await this.getUserProfile(user)) : null);
+        this.setUserProfile(user);
         // this.isLoaded = true;
       });
     },
-
     async signInWithPopup() {
       let provider = new firebase.auth.GoogleAuthProvider();
       try {
@@ -74,7 +77,6 @@ export const useUserStore = defineStore("user", {
         console.error("Error during signInWithPopup", error);
       }
     },
-
     addNewUserToDb(user) {
       db.doc(`users/${user.uid}`)
         .set({
@@ -91,7 +93,6 @@ export const useUserStore = defineStore("user", {
           console.error("Error: Entering user data", e.message);
         });
     },
-
     async addUsernameToDb(username) {
       const user = auth.currentUser;
 
@@ -112,7 +113,6 @@ export const useUserStore = defineStore("user", {
           console.error("Error: ", reason.message);
         });
     },
-
     async queryDbForUserUID(uid) {
       return await db
         .doc(`users/${uid}`)
@@ -124,7 +124,6 @@ export const useUserStore = defineStore("user", {
           console.error("Error: ", reason.message);
         });
     },
-
     registerUser(credentials) {
       console.log("registerUser action", credentials);
       firebase
@@ -141,7 +140,6 @@ export const useUserStore = defineStore("user", {
           // ..
         });
     },
-
     async signOut() {
       try {
         await auth.signOut();
@@ -149,6 +147,14 @@ export const useUserStore = defineStore("user", {
       } catch (error) {
         console.error("Error during signOut", error);
       }
+    },
+
+    updateUserProfileValue(variable, data){
+      db.doc(`users/${this.authUser.uid}`)
+        .update({ [variable]: data })
+        .then(() => {
+          console.log(`User data ${variable} updated with data: ${data}`);
+        }).catch((error) => {console.error(`Error updating ${variable} with data: ${data}`, error)})
     },
   },
 });
