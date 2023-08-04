@@ -1,7 +1,7 @@
 <template>
-  <q-layout view="hHh LpR fFf">
-    <q-header elevated class="bg-primary text-white">
-      <q-toolbar>
+  <q-layout view="hHh LpR fFf" class="container-fluid">
+    <q-header elevated class="bg-primary text-white header-container">
+      <q-toolbar class="container-fluid">
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
@@ -450,3 +450,7 @@ export default defineComponent({
   // }
 });
 </script>
+
+<style>
+
+</style>
