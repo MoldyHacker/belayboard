@@ -76,7 +76,7 @@
       v-model="leftDrawerOpen"
       side="left"
       overlay
-      behavior="mobile"
+      behavior="default"
       elevated
     >
       <q-list>
@@ -106,7 +106,7 @@
           external-label
           label-position="left"
           color="primary"
-          @click="climbingPlanDialog = true"
+          @click="openClimbingDialog"
           icon="post_add"
           label="Add Plan"
         />
@@ -179,7 +179,7 @@
           filled
           v-model="duration"
           lazy-rules
-          :rules="[(value) => value > 0 || 'Duration must be greater than 0']"
+          :rules="[(value) => value > 0 && value <= 12 || 'Duration must be greater than 0 and less than 12']"
           label="Duration"
           suffix="Hours"
           type="number"
@@ -198,7 +198,7 @@
 
         <q-input filled v-model="gym" label="Gym" rules="['']">
           <template v-slot:append>
-            <q-icon name="fitness_center" class="cursor-pointer">
+            <q-icon name="fitness_center" class="cursor-pointer" @click="userStore.retrieveGyms">
               <q-popup-proxy
                 cover
                 transition-show="scale"
@@ -360,25 +360,16 @@ export default defineComponent({
     postClimbingPlan() {},
     resetClimbingPlan() {},
     pushToProfileSettings() {
-      this.$router.push({ name: "profile" });
+      this.$router.push({ name: "Profile" });
     },
     pushToSiteSettings() {
-      this.$router.push({ name: "site-settings" });
+      this.$router.push({ name: "Account-Settings" });
     },
     login() {
       this.userStore.signInWithPopup();
-      // let provider = new firebase.auth.GoogleAuthProvider();
-      // auth
-      //   .signInWithPopup(provider)
-      //   .catch(function (error) {
-      //     console.error('Error signing in: ', error)
-      //   })
     },
     logout() {
       this.userStore.signOut();
-      // console.log('logout')
-      // auth.signOut()
-      //   .catch(function (error){})
     },
     async checkUsername() {
       let username = this.usernameFixed;
@@ -408,6 +399,10 @@ export default defineComponent({
               this.$forceUpdate();
             });
       }
+    },
+    openClimbingDialog() {
+      this.climbingPlanDialog = true;
+      this.userStore.retrieveGyms()
     },
   },
   computed: {

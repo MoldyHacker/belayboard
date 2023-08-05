@@ -5,14 +5,15 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', name: 'index', component: () => import('pages/IndexPage.vue') },
+      { path: '/wall', name: 'wall', component: () => import('pages/PlanBoardPage.vue') },
       { path: '/profile', name: 'Profile', component: () => import('pages/ProfilePage.vue') },
-      { path: '/user/:uid', name: 'User Profile' },
+      { path: '/user/:uid', name: 'User Profile', component: () => import('pages/UserProfilePage.vue'), props: true },
+
       { path: '/contact-user/:uid', name: 'Contact User', component: () => import(''), props: true },
       { path: '/edit', children: [
           { path: 'account', name: 'Account-Settings', component: () => import('pages/settings/EditAccount.vue') },
           { path: 'profile', name: 'Edit Your Profile', component: () => import('pages/settings/EditProfile.vue') },
         ], redirect: '/edit/account' },
-
     ]
   },
 

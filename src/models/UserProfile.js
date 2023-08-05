@@ -17,6 +17,9 @@ export default function UserProfile(firebaseUser) {
     homeLocation: firebaseUser.homeLocation ? firebaseUser.homeLocation : "",
     email: firebaseUser.email ? firebaseUser.email : "",
     role: firebaseUser.role ? firebaseUser.role : "",
-    bio: firebaseUser.bio ? firebaseUser.bio : "",
+    otherInterests: firebaseUser.otherInterests ? firebaseUser.otherInterests : "",
+    favGymOrCrag: firebaseUser.favGymOrCrag ? firebaseUser.favGymOrCrag : "",
+    moreInfo: firebaseUser.moreInfo ? firebaseUser.moreInfo : "",
+    website: firebaseUser.website ? firebaseUser.website : "",
   };
 }

@@ -25,13 +25,13 @@ export default {
     </div>
     <div class="row">
       <div class="col-xs-12 q-mb-md flex">
-        <div class="">
+        <div class="centerContent">
           <q-avatar size="100px" @click="this.$router.push({ name: 'Profile' })">
             <img v-if="!!userStore.authUser?.photoURL" :src="userStore.authUser.photoURL"  alt="Users profile image"/>
             <q-icon v-else name="account_circle"/>
           </q-avatar>
         </div>
-        <div class="q-ml-lg">
+        <div class="q-ml-lg centerContent">
           <span class="label">
             Change Your Avatar
           </span>
@@ -56,7 +56,7 @@ export default {
           <span class="label">Name</span>
           <span class="text-grey-8">Required</span>
         </div>
-        <q-input dense outlined v-model="userStore.userProfile.displayName" />
+        <q-input dense outlined v-model="userStore.userProfile.displayName" debounce="500" @blur="userStore.updateUserProfileValue('displayName', userStore.userProfile.displayName )"/>
       </div>
       <div class="col-sm-3 col-12 middleItemSpacing">
         <span class="label no-wrap">Username</span>
@@ -64,7 +64,7 @@ export default {
       </div>
       <div class="col-sm-6 col-12 lastItemSpacing">
         <span class="label">Home City, State</span>
-        <q-input dense outlined v-model="userStore.userProfile.homeLocation" />
+        <q-input dense outlined v-model="userStore.userProfile.homeLocation" @blur="userStore.updateUserProfileValue('homeLocation', userStore.userProfile.homeLocation )" />
       </div>
     </div>
     <div class="row q-pt-md">
@@ -74,19 +74,19 @@ export default {
     <div class="row">
       <div class="col-sm-6 col-12 firstItemSpacing">
         <span class="label">Other Interests</span>
-        <q-input outlined v-model="userStore.userProfile.homeLocation" />
+        <q-input outlined v-model="userStore.userProfile.otherInterests" @blur="userStore.updateUserProfileValue('otherInterests', userStore.userProfile.otherInterests )" />
       </div>
       <div class="col-sm-6 col-12 lastItemSpacing">
         <span class="label">Favorite Gym or Crag</span>
-        <q-input outlined v-model="userStore.userProfile.homeLocation" />
+        <q-input outlined v-model="userStore.userProfile.favGymOrCrag" @blur="userStore.updateUserProfileValue('favGymOrCrag', userStore.userProfile.favGymOrCrag )" />
       </div>
       <div class="col-sm-6 col-12 firstItemSpacing">
         <span class="label">More Information</span>
-        <q-input outlined v-model="userStore.userProfile.homeLocation" />
+        <q-input outlined v-model="userStore.userProfile.moreInfo" @blur="userStore.updateUserProfileValue('moreInfo', userStore.userProfile.moreInfo )" />
       </div>
       <div class="col-sm-6 col-12 lastItemSpacing">
         <span class="label">Website</span>
-        <q-input outlined v-model="userStore.userProfile.homeLocation" />
+        <q-input outlined v-model="userStore.userProfile.website" @blur="userStore.updateUserProfileValue('website', userStore.userProfile.website )" />
       </div>
     </div>
   </q-page>
@@ -127,6 +127,12 @@ export default {
   }
   .lastItemSpacing {
     padding-left: 0;
+  }
+}
+@media (max-width: 400px) {
+  .centerContent {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 </style>

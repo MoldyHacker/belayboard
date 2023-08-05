@@ -8,6 +8,7 @@ export const useUserStore = defineStore("user", {
   state: () => ({
     authUser: null,
     userProfile: null,
+    gyms: [],
     isLoaded: false,
   }),
 
@@ -155,6 +156,18 @@ export const useUserStore = defineStore("user", {
         .then(() => {
           console.log(`User data ${variable} updated with data: ${data}`);
         }).catch((error) => {console.error(`Error updating ${variable} with data: ${data}`, error)})
+    },
+
+    retrieveGyms() {
+      db
+        .collection('gyms')
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            console.log(doc.id, '=>', doc.data());
+            this.gyms.push(doc.data());
+          });
+        }).catch((error) => {console.log('Error retrieving collection', error)})
     },
   },
 });
