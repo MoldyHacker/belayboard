@@ -21,5 +21,6 @@ export default function UserProfile(firebaseUser) {
     favGymOrCrag: firebaseUser.favGymOrCrag ? firebaseUser.favGymOrCrag : "",
     moreInfo: firebaseUser.moreInfo ? firebaseUser.moreInfo : "",
     website: firebaseUser.website ? firebaseUser.website : "",
+    favGyms: firebaseUser.favGyms ? firebaseUser.favGyms : [],
   };
 }

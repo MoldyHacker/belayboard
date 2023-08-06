@@ -198,7 +198,7 @@
 
         <q-input filled v-model="gym" label="Gym" rules="['']">
           <template v-slot:append>
-            <q-icon name="fitness_center" class="cursor-pointer" @click="userStore.retrieveGyms">
+            <q-icon name="fitness_center" class="cursor-pointer" @click="openGymDialog">
               <q-popup-proxy
                 cover
                 transition-show="scale"
@@ -218,7 +218,19 @@
   </q-dialog>
 
   <!--Select Gym Dialog-->
+  <q-dialog v-model="gymsDialog">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6 text-center">Pick a Gym</div>
+      </q-card-section>
 
+      <q-card-section>
+        <q-list>
+          <GymListItem v-for="gym in userStore.gyms" :key="gym.gymId" :data="gym" />
+        </q-list>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
   <!--Gym Info Dialog-->
 
   <!--Add climb log Dialog-->
@@ -259,7 +271,7 @@
       </q-card-section>
 
       <q-card-actions align="right" class="text-primary">
-        <q-btn flat label="submit" @click="submit" />
+        <q-btn flat label="submit" @click="submitUsername" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -273,6 +285,7 @@ import { date } from "quasar";
 import { useUserStore } from "stores/user-store";
 import { db } from "boot/firebase";
 import { useQuasar } from "quasar";
+import GymListItem from "components/GymListItem.vue";
 
 const linksList = [
   {
@@ -350,6 +363,8 @@ export default defineComponent({
       }),
       duration: 2,
       gym: "",
+
+      gymsDialog: false
     };
   },
 
@@ -386,7 +401,7 @@ export default defineComponent({
       }
     },
 
-    submit() {
+    submitUsername() {
       if (this.usernameAvailable) {
         this.userStore.addUsernameToDb(this.username)
             .then(() => {
@@ -402,7 +417,10 @@ export default defineComponent({
     },
     openClimbingDialog() {
       this.climbingPlanDialog = true;
+    },
+    openGymDialog() {
       this.userStore.retrieveGyms()
+      this.gymsDialog = true;
     },
   },
   computed: {
@@ -421,6 +439,7 @@ export default defineComponent({
   },
 
   components: {
+    GymListItem,
     EssentialLink,
   },
 
