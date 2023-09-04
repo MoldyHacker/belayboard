@@ -21,5 +21,9 @@ export default function UserProfile(firebaseUser) {
     gender: firebaseUser.gender ? firebaseUser.gender : "",
     creationTimestamp: firebaseUser.creationTimestamp ? firebaseUser.creationTimestamp : "",
     favGymOrCrag: firebaseUser.favGymOrCrag ?? "",
+    otherInterests: firebaseUser.otherInterests ? firebaseUser.otherInterests : "",
+    moreInfo: firebaseUser.moreInfo ? firebaseUser.moreInfo : "",
+    website: firebaseUser.website ? firebaseUser.website : "",
+    favGyms: firebaseUser.favGyms ? firebaseUser.favGyms : [],
   };
 }

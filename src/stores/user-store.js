@@ -3,11 +3,13 @@ import { auth, db } from "boot/firebase";
 import AuthUser from "src/models/AuthUser";
 import firebase from "firebase";
 import UserProfile from "src/models/UserProfile";
+import GymModel from "src/models/GymModel";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
     authUser: null,
     userProfile: null,
+    gyms: [],
     isLoaded: false,
   }),
 
@@ -18,6 +20,11 @@ export const useUserStore = defineStore("user", {
     hasUsername(state) {
       return !!state.userProfile.username
     },
+    // favoriteGyms(state) {
+    //   let favs = [];
+    //   state.userProfile.favGyms.forEach((gym) => favs.push(gym.id));
+    //   return favs;
+    // },
   },
 
   actions: {
@@ -159,6 +166,36 @@ export const useUserStore = defineStore("user", {
 
     async getUser(id) {
       return await db.doc(`users/${id}`).get();
+    },
+
+    async retrieveGyms() {
+      // const favGyms = this.favoriteGyms();
+      function compareGyms(a, b) {
+        if (a.favorite && !b.favorite) {
+          return -1;
+        } else if (!a.favorite && b.favorite) {
+          return 1
+        } else {
+          return a.displayName.localeCompare(b.displayName);
+        }
+      }
+      this.gyms = [];
+      await db
+        .collection('gyms')
+        .get()
+        .then(async (querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            let data = doc.data()
+            console.log(doc.id, '=>', data);
+            let isFavorite = this.userProfile.favGyms.includes(doc.id);
+            this.gyms.push(new GymModel(doc.id, doc.data(), isFavorite));
+          });
+        }).catch((error) => {console.log('Error retrieving collection', error)})
+      this.gyms.sort(compareGyms);
+      console.log('Gyms: ', this.gyms)
+    },
+    assignGyms(doc) {
+
     },
   },
 });

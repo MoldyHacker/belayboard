@@ -76,7 +76,7 @@
       v-model="leftDrawerOpen"
       side="left"
       overlay
-      behavior="mobile"
+      behavior="default"
       elevated
     >
       <q-list>
@@ -106,7 +106,7 @@
           external-label
           label-position="left"
           color="primary"
-          @click="climbingPlanDialog = true"
+          @click="openClimbingDialog"
           icon="post_add"
           label="Add Plan"
         />
@@ -179,7 +179,7 @@
           filled
           v-model="duration"
           lazy-rules
-          :rules="[(value) => value > 0 || 'Duration must be greater than 0']"
+          :rules="[(value) => value > 0 && value <= 12 || 'Duration must be greater than 0 and less than 12']"
           label="Duration"
           suffix="Hours"
           type="number"
@@ -198,7 +198,7 @@
 
         <q-input filled v-model="gym" label="Gym" rules="['']">
           <template v-slot:append>
-            <q-icon name="fitness_center" class="cursor-pointer">
+            <q-icon name="fitness_center" class="cursor-pointer" @click="openGymDialog">
               <q-popup-proxy
                 cover
                 transition-show="scale"
@@ -218,7 +218,19 @@
   </q-dialog>
 
   <!--Select Gym Dialog-->
+  <q-dialog v-model="gymsDialog">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6 text-center">Pick a Gym</div>
+      </q-card-section>
 
+      <q-card-section>
+        <q-list>
+          <GymListItem v-for="gym in userStore.gyms" :key="gym.gymId" :data="gym" />
+        </q-list>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
   <!--Gym Info Dialog-->
 
   <!--Add climb log Dialog-->
@@ -259,7 +271,7 @@
       </q-card-section>
 
       <q-card-actions align="right" class="text-primary">
-        <q-btn flat label="submit" @click="submit" />
+        <q-btn flat label="submit" @click="submitUsername" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -273,6 +285,7 @@ import { date } from "quasar";
 import { useUserStore } from "stores/user-store";
 import { db } from "boot/firebase";
 import { useQuasar } from "quasar";
+import GymListItem from "components/GymListItem.vue";
 
 const linksList = [
   {
@@ -350,6 +363,8 @@ export default defineComponent({
       }),
       duration: 2,
       gym: "",
+
+      gymsDialog: false
     };
   },
 
@@ -360,25 +375,16 @@ export default defineComponent({
     postClimbingPlan() {},
     resetClimbingPlan() {},
     pushToProfileSettings() {
-      this.$router.push({ name: "Edit Your Profile" });
+      this.$router.push({ name: "Profile" });
     },
     pushToSiteSettings() {
       this.$router.push({ name: "Account-Settings" });
     },
     login() {
       this.userStore.signInWithPopup();
-      // let provider = new firebase.auth.GoogleAuthProvider();
-      // auth
-      //   .signInWithPopup(provider)
-      //   .catch(function (error) {
-      //     console.error('Error signing in: ', error)
-      //   })
     },
     logout() {
       this.userStore.signOut();
-      // console.log('logout')
-      // auth.signOut()
-      //   .catch(function (error){})
     },
     async checkUsername() {
       let username = this.usernameFixed;
@@ -395,7 +401,7 @@ export default defineComponent({
       }
     },
 
-    submit() {
+    submitUsername() {
       if (this.usernameAvailable) {
         this.userStore.addUsernameToDb(this.username)
             .then(() => {
@@ -408,6 +414,13 @@ export default defineComponent({
               this.$forceUpdate();
             });
       }
+    },
+    openClimbingDialog() {
+      this.climbingPlanDialog = true;
+    },
+    openGymDialog() {
+      this.userStore.retrieveGyms()
+      this.gymsDialog = true;
     },
   },
   computed: {
@@ -426,6 +439,7 @@ export default defineComponent({
   },
 
   components: {
+    GymListItem,
     EssentialLink,
   },
 
