@@ -32,7 +32,7 @@ export const useUserStore = defineStore("user", {
       return await db.doc(`users/${user.uid}`)
         .get()
         .then((doc) => {
-          console.log("data: ", doc.data());
+          // console.log("data: ", doc.data());
           return doc.exists ? doc.data() : null;
         })
         .catch((e) => console.error("Error fetching user profile", e));
@@ -40,7 +40,7 @@ export const useUserStore = defineStore("user", {
     setUserProfile(user){
       db.doc(`users/${user.uid}`)
         .onSnapshot((doc) => {
-          console.log("data: ", doc.data());
+          // console.log("data: ", doc.data());
           this.userProfile = new UserProfile(doc.exists ? doc.data() : null);
         });
     },
@@ -155,6 +155,10 @@ export const useUserStore = defineStore("user", {
         .then(() => {
           console.log(`User data ${variable} updated with data: ${data}`);
         }).catch((error) => {console.error(`Error updating ${variable} with data: ${data}`, error)})
+    },
+
+    async getUser(id) {
+      return await db.doc(`users/${id}`).get();
     },
   },
 });

@@ -360,10 +360,10 @@ export default defineComponent({
     postClimbingPlan() {},
     resetClimbingPlan() {},
     pushToProfileSettings() {
-      this.$router.push({ name: "profile" });
+      this.$router.push({ name: "Edit Your Profile" });
     },
     pushToSiteSettings() {
-      this.$router.push({ name: "site-settings" });
+      this.$router.push({ name: "Account-Settings" });
     },
     login() {
       this.userStore.signInWithPopup();

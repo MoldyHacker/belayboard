@@ -18,5 +18,8 @@ export default function UserProfile(firebaseUser) {
     email: firebaseUser.email ? firebaseUser.email : "",
     role: firebaseUser.role ? firebaseUser.role : "",
     bio: firebaseUser.bio ? firebaseUser.bio : "",
+    gender: firebaseUser.gender ? firebaseUser.gender : "",
+    creationTimestamp: firebaseUser.creationTimestamp ? firebaseUser.creationTimestamp : "",
+    favGymOrCrag: firebaseUser.favGymOrCrag ?? "",
   };
 }

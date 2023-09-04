@@ -70,7 +70,7 @@ export default {
     <div class="row q-pt-md">
       Please use your real name.
     </div>
-    <hr class="q-my-lg">
+    <q-separator class="q-my-lg"/>
     <div class="row">
       <div class="col-sm-6 col-12 firstItemSpacing">
         <span class="label">Other Interests</span>
